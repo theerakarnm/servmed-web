@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { ChevronUp, ChevronDown, MessageSquare, ThumbsUp, ThumbsDown } from 'lucide-react'
-import { Button } from "@workspace/ui/components/button"
-import { Textarea } from "@workspace/ui/components/textarea"
-import { Card, CardContent, CardFooter, CardHeader } from "@workspace/ui/components/card"
-import { Badge } from "@workspace/ui/components/badge"
-import { Separator } from "@workspace/ui/components/separator"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
 import { useQuestions } from "~/hooks/use-product-questions"
 import { formatDistanceToNow } from "date-fns"
 import { toast } from 'sonner';

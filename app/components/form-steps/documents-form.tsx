@@ -2,9 +2,9 @@
 
 import type React from "react"
 
-import { Button } from "@workspace/ui/components/button"
-import { Label } from "@workspace/ui/components/label"
-import { Checkbox } from "@workspace/ui/components/checkbox"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import { Checkbox } from "@/components/ui/checkbox"
 import { FormSection } from "../form-section"
 import FileUpload from "../file-upload"
 import { Link } from "@remix-run/react"

@@ -1,8 +1,8 @@
 import { ShoppingCart, Star } from "lucide-react"
 
-import { Button } from "@workspace/ui/components/button"
-import { Card, CardContent, CardFooter, CardHeader } from "@workspace/ui/components/card"
-import { Badge } from "@workspace/ui/components/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Link } from "@remix-run/react"
 
 interface ProductCardProps {

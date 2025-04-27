@@ -1,7 +1,7 @@
 import { Suspense } from "react"
 import { ArrowRight, ShoppingBag, Star, TrendingUp } from "lucide-react"
-import { Card, CardContent, CardFooter, CardHeader } from "@workspace/ui/components/card"
-import { Skeleton } from "@workspace/ui/components/skeleton"
+import { Card, CardContent, CardFooter, CardHeader } from "~/components/ui/card"
+import { Skeleton } from "~/components/ui/skeleton"
 import {
   getFeaturedProducts,
   getTopCategories,
@@ -15,7 +15,6 @@ import CategoryCard from "~/components/category-card"
 import BrandCard from "~/components/brand-card"
 import { Link, useLoaderData } from "@remix-run/react"
 import type { LoaderFunctionArgs } from "@remix-run/node"
-import { categories, products } from '../../../../packages/db/src/schema';
 import Wrapper from "~/layouts/Wrapper"
 import { UrlBuilder } from "~/lib/url_builder"
 import HttpClient from "~/lib/http_client"

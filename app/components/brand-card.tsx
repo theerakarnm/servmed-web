@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react"
-import { Card, CardContent } from "@workspace/ui/components/card"
+import { Card, CardContent } from "@/components/ui/card"
 
 interface BrandCardProps {
   brand: {

@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState, useRef } from "react"
-import { Button } from "@workspace/ui/components/button"
+import { Button } from "@/components/ui/button"
 import { Upload, X, FileText } from "lucide-react"
 
 interface FileUploadProps {

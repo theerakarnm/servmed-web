@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@workspace/ui/components/card"
+import { Card, CardContent } from "@/components/ui/card"
 import type { ProductDetailResponse } from "~/services/products"
 
 interface ProductOverviewProps {
