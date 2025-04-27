@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react"
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "~/components/ui/badge"
 import type { getProductCategories } from "~/data/product"
 
 interface RelatedCategoriesProps {

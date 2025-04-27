@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { Star, ThumbsUp, ThumbsDown, Filter } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { Button } from "~/components/ui/button"
+import { Card, CardContent, CardHeader } from "~/components/ui/card"
+import { Progress } from "~/components/ui/progress"
+import { Badge } from "~/components/ui/badge"
+import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog"
 import { useReviews } from "~/hooks/use-product-review"
 import { formatDistanceToNow } from "date-fns"
 

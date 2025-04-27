@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { ChevronLeft, ChevronRight, Expand } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import { cn } from "@/lib/utils"
+import { Button } from "~/components/ui/button"
+import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog"
+import { cn } from "~/lib/utils"
 import { useProductImages } from "~/hooks/use-product-images"
 
 interface ProductGalleryProps {

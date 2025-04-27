@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "~/components/ui/card"
 import BusinessInfoForm from "./form-steps/business-info-form"
 import AddressForm from "./form-steps/address-form"
 import ContactForm from "./form-steps/contact-form"

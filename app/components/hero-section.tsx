@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "~/components/ui/button"
 import { Link } from "@remix-run/react"
 
 export default function HeroSection() {

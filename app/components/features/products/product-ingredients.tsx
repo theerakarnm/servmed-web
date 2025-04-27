@@ -1,6 +1,6 @@
-import { Separator } from "@/components/ui/separator"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Separator } from "~/components/ui/separator"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table"
+import { Alert, AlertDescription } from "~/components/ui/alert"
 import { Info } from 'lucide-react'
 import type { ProductDetailResponse } from "~/services/products"
 

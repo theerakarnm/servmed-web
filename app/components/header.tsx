@@ -1,9 +1,9 @@
 import { Search, ShoppingCart, Menu, User } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Badge } from "@/components/ui/badge"
+import { Button } from "~/components/ui/button"
+import { Input } from "~/components/ui/input"
+import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet"
+import { Badge } from "~/components/ui/badge"
 import { Link } from "@remix-run/react"
 
 export default function Header() {

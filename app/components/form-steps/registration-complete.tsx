@@ -1,5 +1,4 @@
 import { CheckCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { Link } from "@remix-run/react"
 
 export default function RegistrationComplete() {

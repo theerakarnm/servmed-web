@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
 import ProductOverview from "~/components/features/products/product-overview"
 import ProductIngredients from "~/components/features/products/product-ingredients"
 import ProductQuestions from "~/components/features/products/product-questions"
