@@ -1,8 +1,8 @@
-import { buttonVariants } from '@/components/ui/button';
-import type { CalendarProps } from '@/components/ui/calendar';
-import { Input } from '@/components/ui/input';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
+import { buttonVariants } from '~/components/ui/button';
+import type { CalendarProps } from '~/components/ui/calendar';
+import { Input } from '~/components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '~/components/ui/popover';
+import { cn } from '~/lib/utils';
 import { add } from 'date-fns';
 import { type Locale, th } from 'date-fns/locale';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -16,10 +16,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '~/components/ui/select';
 import { DayPicker, type Matcher } from 'react-day-picker';
 
-import * as dateUtil from '@/lib/date'
+import * as dateUtil from '~/lib/date'
 import { InputPure } from './inputWithOutForm';
 
 function Calendar({
