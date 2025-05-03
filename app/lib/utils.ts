@@ -19,3 +19,21 @@ export function jnavigate({
   window.open(`${origin}${path}?${query ? query.toString() : ''}`, target)
 }
 
+export const ensure = {
+  number: (value: string | number) => {
+    if (typeof value === 'number') return value
+    const parsed = Number(value)
+    if (Number.isNaN(parsed)) {
+      throw new Error(`Value "${value}" is not a valid number`)
+    }
+    return parsed
+  },
+  string: (value: string | number) => {
+    if (typeof value === 'string') return value
+    const parsed = String(value)
+    if (parsed.trim() === '') {
+      throw new Error(`Value "${value}" is not a valid string`)
+    }
+    return parsed
+  }
+}

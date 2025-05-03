@@ -11,13 +11,14 @@ import { formatCurrency } from "~/lib/formatter"
 import { toast } from "sonner"
 import { Link } from "@remix-run/react"
 import type { ProductDetailResponse } from "~/services/products"
+import { ensure } from "~/lib/utils"
 
 interface ProductInfoProps {
   product: ProductDetailResponse // Using any for now, would be properly typed in a real app
 }
 
 export default function ProductInfo({ product }: ProductInfoProps) {
-  const { variants, isLoading } = useProductVariants(product.productId)
+  const { variants, isLoading } = useProductVariants(product.variants)
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null)
   const [quantity, setQuantity] = useState(1)
 
@@ -118,11 +119,11 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       <div className="space-y-4">
         <div className="flex items-baseline gap-2">
           <span className="text-3xl font-bold">
-            {currentVariant ? formatCurrency(currentVariant.price, currentVariant.currency) : "Select a variant"}
+            {currentVariant ? formatCurrency(ensure.number(currentVariant.price), currentVariant.currency) : "Select a variant"}
           </span>
           {currentVariant?.listPrice && currentVariant.price < currentVariant.listPrice && (
             <span className="text-lg text-muted-foreground line-through">
-              {formatCurrency(currentVariant.listPrice, currentVariant.currency)}
+              {formatCurrency(ensure.number(currentVariant.listPrice), currentVariant.currency)}
             </span>
           )}
         </div>
@@ -152,7 +153,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
                     className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                   >
                     <span className="text-sm font-semibold">{variant.packageDescription}</span>
-                    <span className="text-sm font-medium">{formatCurrency(variant.price, variant.currency)}</span>
+                    <span className="text-sm font-medium">{formatCurrency(ensure.number(variant.price), variant.currency)}</span>
                   </Label>
                 </div>
               ))}

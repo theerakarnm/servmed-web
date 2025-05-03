@@ -1,6 +1,31 @@
 import HttpClient from "~/lib/http_client";
 import { UrlBuilder } from "~/lib/url_builder";
 
+export type ProductVariants = {
+  supplementFacts: {
+    factId: number;
+    ingredientName: string;
+    amountPerServing: string;
+    percentDailyValue: string | null;
+    displayOrder: number;
+  }[];
+  variantId: number;
+  packageDescription: string;
+  price: string;
+  currency: string;
+  listPrice: string | null;
+  servingSize: string | null;
+  servingsPerContainer: number | null;
+  isInStock: boolean;
+}
+
+export type ProductImage = {
+  imageId: number;
+  imageUrl: string;
+  altText: string | null;
+  isThumbnail: boolean;
+  displayOrder: number;
+}
 
 export type ProductDetailResponse = {
   productId: number;
@@ -20,30 +45,8 @@ export type ProductDetailResponse = {
   nonGmoDocumentation: boolean | null;
   massSpecLabTested: boolean | null;
   dateFirstAvailable: Date | string | null;
-  images: {
-    imageId: number;
-    imageUrl: string;
-    altText: string | null;
-    isThumbnail: boolean;
-    displayOrder: number;
-  }[];
-  variants: {
-    supplementFacts: {
-      factId: number;
-      ingredientName: string;
-      amountPerServing: string;
-      percentDailyValue: string | null;
-      displayOrder: number;
-    }[];
-    variantId: number;
-    packageDescription: string;
-    price: string;
-    currency: string;
-    listPrice: string | null;
-    servingSize: string | null;
-    servingsPerContainer: number | null;
-    isInStock: boolean;
-  };
+  images: ProductImage[];
+  variants: ProductVariants[];
   nutritionalFacts: {
     factId: number;
     productId: number;
