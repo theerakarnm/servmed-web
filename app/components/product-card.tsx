@@ -4,6 +4,7 @@ import { Button } from "~/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "~/components/ui/card"
 import { Badge } from "~/components/ui/badge"
 import { Link } from "@remix-run/react"
+import { useCart } from "~/context/cart-context"
 
 interface ProductCardProps {
   product: {
@@ -27,6 +28,24 @@ export default function ProductCard({ product }: ProductCardProps) {
   const currency = product.currency || "USD"
   const rating = product.overallRating || 4.5
   const reviews = product.totalReviews || 0
+
+  const { addItem } = useCart()
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    addItem({
+      productId: product.productId,
+      variantId: product.productId * 100, // Simplified for demo
+      name: product.name,
+      brandName: product.brandName,
+      packageDescription: "Default Package",
+      price: price,
+      quantity: 1,
+      imageUrl: imageUrl,
+    })
+  }
 
   return (
     <Card className="overflow-hidden transition-all hover:shadow-md">
@@ -73,7 +92,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       </CardContent>
 
       <CardFooter className="p-4 pt-0">
-        <Button className="w-full" size="sm">
+        <Button className="w-full" size="sm" onClick={handleAddToCart}>
           <ShoppingCart className="h-4 w-4 mr-2" />
           Add to Cart
         </Button>

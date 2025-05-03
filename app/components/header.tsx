@@ -5,8 +5,11 @@ import { Input } from "~/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet"
 import { Badge } from "~/components/ui/badge"
 import { Link } from "@remix-run/react"
+import { useCart } from "~/context/cart-context"
 
 export default function Header() {
+  const { itemCount } = useCart()
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
@@ -78,10 +81,16 @@ export default function Header() {
             <span className="sr-only">Account</span>
           </Button>
 
-          <Button variant="ghost" size="icon" className="relative">
-            <ShoppingCart className="h-5 w-5" />
-            <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0">3</Badge>
-            <span className="sr-only">Cart</span>
+          <Button variant="ghost" size="icon" className="relative" asChild>
+            <Link to="/cart">
+              <ShoppingCart className="h-5 w-5" />
+              {itemCount > 0 && (
+                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0">
+                  {itemCount > 99 ? "99+" : itemCount}
+                </Badge>
+              )}
+              <span className="sr-only">Cart</span>
+            </Link>
           </Button>
         </div>
       </div>

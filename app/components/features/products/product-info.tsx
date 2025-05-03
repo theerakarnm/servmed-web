@@ -12,6 +12,7 @@ import { toast } from "sonner"
 import { Link } from "@remix-run/react"
 import type { ProductDetailResponse } from "~/services/products"
 import { ensure } from "~/lib/utils"
+import { useCart } from "~/context/cart-context"
 
 interface ProductInfoProps {
   product: ProductDetailResponse // Using any for now, would be properly typed in a real app
@@ -21,14 +22,31 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const { variants, isLoading } = useProductVariants(product.variants)
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null)
   const [quantity, setQuantity] = useState(1)
+  const { addItem } = useCart()
 
   const handleAddToCart = () => {
-    if (!selectedVariant) {
-      toast('Please select a product variant')
+    if (!selectedVariant && variants.length > 0) {
+      toast("You need to select a product variant before adding to cart")
       return
     }
 
-    toast(`${product.name} (${variants.find(v => v.variantId.toString() === selectedVariant)?.packageDescription}) x ${quantity}`)
+    const variantToAdd = variants.find((v) => v.packageDescription === selectedVariant) || variants[0]
+
+    if (!variantToAdd) {
+      toast("Could not find product variant")
+      return
+    }
+
+    addItem({
+      productId: product.productId,
+      variantId: variantToAdd.variantId,
+      name: product.name,
+      brandName: product.brandName || "",
+      packageDescription: variantToAdd.packageDescription,
+      price: ensure.number(variantToAdd.price),
+      quantity: quantity,
+      imageUrl: product.images[0].imageUrl || "/placeholder.svg?height=300&width=300",
+    })
   }
 
   const handleBuyNow = () => {
