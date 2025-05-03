@@ -35,5 +35,41 @@ export const ensure = {
       throw new Error(`Value "${value}" is not a valid string`)
     }
     return parsed
+  },
+  array: <T>(value: T[] | T) => {
+    if (Array.isArray(value)) return value
+    const parsed = [value]
+    if (parsed.length === 0) {
+      throw new Error(`Value "${value}" is not a valid array`)
+    }
+    return parsed
+  },
+  object: <T>(value: T | Record<string, unknown>) => {
+    if (typeof value === 'object' && value !== null) return value
+    throw new Error(`Value "${value}" is not a valid object`)
+  },
+  boolean: (value: boolean | string) => {
+    if (typeof value === 'boolean') return value
+    const parsed = value.toLowerCase() === 'true'
+    if (parsed !== true && parsed !== false) {
+      throw new Error(`Value "${value}" is not a valid boolean`)
+    }
+    return parsed
+  },
+  date: (value: string | Date) => {
+    if (value instanceof Date) return value
+    const parsed = new Date(value)
+    if (Number.isNaN(parsed.getTime())) {
+      throw new Error(`Value "${value}" is not a valid date`)
+    }
+    return parsed
+  },
+  dateString: (value: string | Date) => {
+    if (value instanceof Date) return value.toISOString()
+    const parsed = new Date(value)
+    if (Number.isNaN(parsed.getTime())) {
+      throw new Error(`Value "${value}" is not a valid date`)
+    }
+    return parsed.toISOString()
   }
 }
