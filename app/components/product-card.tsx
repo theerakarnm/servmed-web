@@ -68,7 +68,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <div className="font-bold">
-          {currency === "USD" ? "$" : currency} {price.toFixed(2)}
+          {currency === "USD" ? "$" : currency} {(+price).toFixed(2)}
         </div>
       </CardContent>
 

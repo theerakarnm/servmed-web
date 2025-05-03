@@ -43,7 +43,15 @@ export type ProductDetailResponse = {
     servingSize: string | null;
     servingsPerContainer: number | null;
     isInStock: boolean;
-  }
+  };
+  nutritionalFacts: {
+    factId: number;
+    productId: number;
+    ingredient: string;
+    amountPerServing: string;
+    percentDailyValue: string | null;
+    displayOrder: number;
+  }[]
   categories: {
     categoryId: number;
     name: string;

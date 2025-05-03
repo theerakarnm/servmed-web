@@ -9,17 +9,6 @@ interface ProductIngredientsProps {
 }
 
 export default function ProductIngredients({ product }: ProductIngredientsProps) {
-  // This is a mock function - in a real app, you'd fetch this data
-  const getNutritionFacts = () => {
-    return [
-      { name: "Vitamin C", amount: "500mg", dailyValue: "556%" },
-      { name: "Zinc", amount: "15mg", dailyValue: "136%" },
-      { name: "Vitamin D3", amount: "50mcg", dailyValue: "250%" },
-    ]
-  }
-
-  const nutritionFacts = getNutritionFacts()
-
   return (
     <div className="space-y-8">
       {/* Nutrition Facts */}
@@ -34,12 +23,12 @@ export default function ProductIngredients({ product }: ProductIngredientsProps)
             </TableRow>
           </TableHeader>
           <TableBody>
-            {nutritionFacts.map((item, index) => (
+            {product.nutritionalFacts.map((item, index) => (
               // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               <TableRow key={index}>
-                <TableCell className="font-medium">{item.name}</TableCell>
-                <TableCell>{item.amount}</TableCell>
-                <TableCell>{item.dailyValue}</TableCell>
+                <TableCell className="font-medium">{item.ingredient}</TableCell>
+                <TableCell>{item.amountPerServing}</TableCell>
+                <TableCell>{item.percentDailyValue}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -72,7 +61,7 @@ export default function ProductIngredients({ product }: ProductIngredientsProps)
         <Alert>
           <Info className="h-4 w-4" />
           <AlertDescription>
-            Contains no artificial colors, flavors or preservatives. Free from gluten, wheat, dairy, soy, and GMOs.
+            {/* {product} */}
           </AlertDescription>
         </Alert>
       </div>
