@@ -65,7 +65,7 @@ export default function ProductPage() {
       <div className="container px-4 py-8 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           {/* Product Gallery */}
-          <ProductGallery productId={productId} />
+          <ProductGallery product={product} />
 
           {/* Product Info */}
           <ProductInfo product={product} />

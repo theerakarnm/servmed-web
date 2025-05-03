@@ -4,13 +4,14 @@ import { Button } from "~/components/ui/button"
 import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog"
 import { cn } from "~/lib/utils"
 import { useProductImages } from "~/hooks/use-product-images"
+import type { ProductDetailResponse } from "~/services/products"
 
 interface ProductGalleryProps {
-  productId: number
+  product: ProductDetailResponse
 }
 
-export default function ProductGallery({ productId }: ProductGalleryProps) {
-  const { images, isLoading } = useProductImages(productId)
+export default function ProductGallery({ product }: ProductGalleryProps) {
+  const { images, isLoading } = useProductImages(product.images)
   const [currentImage, setCurrentImage] = useState(0)
 
   // If loading or no images, show placeholder
