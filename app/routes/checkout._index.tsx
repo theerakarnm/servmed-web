@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 
 import { useState, useEffect } from "react"
@@ -16,6 +14,7 @@ import ThaiQRPayment from "~/components/features/checkout/thai-qr-payment"
 import { useCart } from "~/context/cart-context"
 import { toast } from "sonner"
 import { Link } from "@remix-run/react"
+import Wrapper from "~/layouts/Wrapper"
 
 type OrderStatus = "draft" | "pending_payment" | "processing" | "completed" | "cancelled"
 
@@ -149,7 +148,7 @@ export default function CheckoutPage() {
       setTimeout(() => {
         setIsSubmitting(false)
         setOrderComplete(true)
-        clearCart()
+        // clearCart()
       }, 2000)
     }
   }
@@ -177,240 +176,248 @@ export default function CheckoutPage() {
 
       setPendingPayment(false)
       setOrderComplete(true)
-      clearCart()
+      // clearCart()
     }
   }
 
   if (orderComplete) {
     return (
-      <div className="container max-w-md mx-auto px-4 py-16 text-center">
-        <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto mb-6" />
-        <h1 className="text-2xl font-bold mb-2">
-          {order?.status === "pending_payment" ? "Payment Pending Verification" : "Order Confirmed!"}
-        </h1>
-        <p className="text-muted-foreground mb-8">
-          {order?.status === "pending_payment"
-            ? "Thank you for your order. We're waiting for payment confirmation. You'll receive an email once your payment is verified."
-            : "Thank you for your purchase. We've sent a confirmation email with your order details."}
-        </p>
-        <div className="text-sm text-muted-foreground mb-8">Order ID: {order?.id}</div>
-        <Button asChild>
-          <Link to="/">Return to Home</Link>
-        </Button>
-      </div>
+      <Wrapper>
+        <div className="container max-w-md mx-auto px-4 py-16 text-center">
+          <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto mb-6" />
+          <h1 className="text-2xl font-bold mb-2">
+            {order?.status === "pending_payment" ? "Payment Pending Verification" : "Order Confirmed!"}
+          </h1>
+          <p className="text-muted-foreground mb-8">
+            {order?.status === "pending_payment"
+              ? "Thank you for your order. We're waiting for payment confirmation. You'll receive an email once your payment is verified."
+              : "Thank you for your purchase. We've sent a confirmation email with your order details."}
+          </p>
+          <div className="text-sm text-muted-foreground mb-8">Order ID: {order?.id}</div>
+          <Button asChild>
+            <Link to="/">Return to Home</Link>
+          </Button>
+        </div>
+      </Wrapper>
     )
   }
 
   if (pendingPayment && order) {
     return (
-      <div className="container max-w-md mx-auto px-4 py-12">
-        <ThaiQRPayment amount={order.total} onPaymentConfirmed={handlePaymentConfirmed} />
-      </div>
+      <Wrapper>
+        <div className="container max-w-md mx-auto px-4 py-12">
+          <ThaiQRPayment amount={order.total} onPaymentConfirmed={handlePaymentConfirmed} />
+        </div>
+      </Wrapper>
     )
   }
 
   if (items.length === 0) {
     return (
-      <div className="container max-w-md mx-auto px-4 py-16 text-center">
-        <h1 className="text-2xl font-bold mb-4">Your cart is empty</h1>
-        <p className="text-muted-foreground mb-8">You need to add items to your cart before checking out.</p>
-        <Button asChild>
-          <Link to="/products">Browse Products</Link>
-        </Button>
-      </div>
+      <Wrapper>
+        <div className="container max-w-md mx-auto px-4 py-16 text-center">
+          <h1 className="text-2xl font-bold mb-4">Your cart is empty</h1>
+          <p className="text-muted-foreground mb-8">You need to add items to your cart before checking out.</p>
+          <Button asChild>
+            <Link to="/products">Browse Products</Link>
+          </Button>
+        </div>
+      </Wrapper>
     )
   }
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-12">
-      <div className="mb-8">
-        <Button variant="ghost" asChild>
-          <Link to="/cart">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Cart
-          </Link>
-        </Button>
-      </div>
+    <Wrapper>
+      <div className="container max-w-4xl mx-auto px-4 py-12">
+        <div className="mb-8">
+          <Button variant="ghost" asChild>
+            <Link to="/cart">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Cart
+            </Link>
+          </Button>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <form onSubmit={handleSubmit}>
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle>Contact Information</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" required />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone</Label>
-                  <Input id="phone" type="tel" required />
-                </div>
-              </CardContent>
-            </Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <form onSubmit={handleSubmit}>
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle>Contact Information</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input id="email" type="email" required />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone</Label>
+                    <Input id="phone" type="tel" required />
+                  </div>
+                </CardContent>
+              </Card>
 
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle>Shipping Address</CardTitle>
-                <CardDescription>
-                  {addresses.length > 0 && !showAddressForm ? (
-                    <Button variant="link" className="p-0 h-auto" onClick={() => setShowAddressForm(true)}>
-                      + Add new address
-                    </Button>
-                  ) : null}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {showAddressForm ? (
-                  <AddressForm
-                    onSave={saveAddress}
-                    onCancel={addresses.length > 0 ? () => setShowAddressForm(false) : undefined}
-                  />
-                ) : addresses.length > 0 ? (
-                  <RadioGroup
-                    value={selectedAddressId || ""}
-                    onValueChange={setSelectedAddressId}
-                    className="space-y-3"
-                  >
-                    {addresses.map((address) => (
-                      <div key={address.id} className="flex items-start space-x-2">
-                        <RadioGroupItem value={address.id} id={`address-${address.id}`} className="mt-1" />
-                        <div className="grid gap-1.5 leading-none w-full">
-                          <Label
-                            htmlFor={`address-${address.id}`}
-                            className="flex justify-between w-full cursor-pointer"
-                          >
-                            <span>
-                              {address.firstName} {address.lastName}
-                              {address.isDefault && (
-                                <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-0.5 rounded">
-                                  Default
-                                </span>
-                              )}
-                            </span>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-auto py-0 px-2"
-                              onClick={(e) => {
-                                e.preventDefault()
-                                setShowAddressForm(true)
-                                // Find the address and set it for editing
-                                const addrToEdit = addresses.find((a) => a.id === address.id)
-                                if (addrToEdit) {
-                                  // This would set the address for editing
-                                }
-                              }}
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle>Shipping Address</CardTitle>
+                  <CardDescription>
+                    {addresses.length > 0 && !showAddressForm ? (
+                      <Button variant="link" className="p-0 h-auto" onClick={() => setShowAddressForm(true)}>
+                        + Add new address
+                      </Button>
+                    ) : null}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {showAddressForm ? (
+                    <AddressForm
+                      onSave={saveAddress}
+                      onCancel={addresses.length > 0 ? () => setShowAddressForm(false) : undefined}
+                    />
+                  ) : addresses.length > 0 ? (
+                    <RadioGroup
+                      value={selectedAddressId || ""}
+                      onValueChange={setSelectedAddressId}
+                      className="space-y-3"
+                    >
+                      {addresses.map((address) => (
+                        <div key={address.id} className="flex items-start space-x-2">
+                          <RadioGroupItem value={address.id} id={`address-${address.id}`} className="mt-1" />
+                          <div className="grid gap-1.5 leading-none w-full">
+                            <Label
+                              htmlFor={`address-${address.id}`}
+                              className="flex justify-between w-full cursor-pointer"
                             >
-                              Edit
-                            </Button>
-                          </Label>
-                          <div className="text-sm text-muted-foreground">
-                            <div>{address.address}</div>
-                            <div>
-                              {address.city}, {address.state} {address.postalCode}
+                              <span>
+                                {address.firstName} {address.lastName}
+                                {address.isDefault && (
+                                  <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-0.5 rounded">
+                                    Default
+                                  </span>
+                                )}
+                              </span>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-auto py-0 px-2"
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  setShowAddressForm(true)
+                                  // Find the address and set it for editing
+                                  const addrToEdit = addresses.find((a) => a.id === address.id)
+                                  if (addrToEdit) {
+                                    // This would set the address for editing
+                                  }
+                                }}
+                              >
+                                Edit
+                              </Button>
+                            </Label>
+                            <div className="text-sm text-muted-foreground">
+                              <div>{address.address}</div>
+                              <div>
+                                {address.city}, {address.state} {address.postalCode}
+                              </div>
+                              <div>{address.country}</div>
+                              <div>Phone: {address.phone}</div>
                             </div>
-                            <div>{address.country}</div>
-                            <div>Phone: {address.phone}</div>
                           </div>
                         </div>
-                      </div>
-                    ))}
-                  </RadioGroup>
-                ) : null}
-              </CardContent>
-            </Card>
+                      ))}
+                    </RadioGroup>
+                  ) : null}
+                </CardContent>
+              </Card>
 
-            <Card className="mb-6">
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle>Payment Method</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Tabs defaultValue={paymentMethod} onValueChange={setPaymentMethod}>
+                    <TabsList className="grid w-full grid-cols-2">
+                      <TabsTrigger value="card">
+                        <CreditCard className="h-4 w-4 mr-2" />
+                        Credit Card
+                      </TabsTrigger>
+                      <TabsTrigger value="thai_qr">
+                        <QrCode className="h-4 w-4 mr-2" />
+                        Thai QR
+                      </TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent value="card" className="space-y-4 pt-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="cardNumber">Card Number</Label>
+                        <Input id="cardNumber" placeholder="1234 5678 9012 3456" />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="expiry">Expiry Date</Label>
+                          <Input id="expiry" placeholder="MM/YY" />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="cvc">CVC</Label>
+                          <Input id="cvc" placeholder="123" />
+                        </div>
+                      </div>
+                    </TabsContent>
+
+                    <TabsContent value="thai_qr" className="pt-4">
+                      <div className="text-center p-4 text-muted-foreground">
+                        <p>You'll be shown a QR code to scan after placing your order.</p>
+                        <p className="text-sm mt-2">Supported by all major Thai banks.</p>
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                </CardContent>
+              </Card>
+
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting ? "Processing..." : `Complete Order • $${total.toFixed(2)}`}
+              </Button>
+            </form>
+          </div>
+
+          <div>
+            <Card>
               <CardHeader>
-                <CardTitle>Payment Method</CardTitle>
+                <CardTitle>Order Summary</CardTitle>
+                <CardDescription>
+                  {items.length} {items.length === 1 ? "item" : "items"} in your cart
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <Tabs defaultValue={paymentMethod} onValueChange={setPaymentMethod}>
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="card">
-                      <CreditCard className="h-4 w-4 mr-2" />
-                      Credit Card
-                    </TabsTrigger>
-                    <TabsTrigger value="thai_qr">
-                      <QrCode className="h-4 w-4 mr-2" />
-                      Thai QR
-                    </TabsTrigger>
-                  </TabsList>
-
-                  <TabsContent value="card" className="space-y-4 pt-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="cardNumber">Card Number</Label>
-                      <Input id="cardNumber" placeholder="1234 5678 9012 3456" />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="expiry">Expiry Date</Label>
-                        <Input id="expiry" placeholder="MM/YY" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="cvc">CVC</Label>
-                        <Input id="cvc" placeholder="123" />
+              <CardContent className="space-y-4">
+                {items.map((item) => (
+                  <div key={item.variantId} className="flex justify-between py-2">
+                    <div>
+                      <div className="font-medium">{item.name}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {item.packageDescription} × {item.quantity}
                       </div>
                     </div>
-                  </TabsContent>
-
-                  <TabsContent value="thai_qr" className="pt-4">
-                    <div className="text-center p-4 text-muted-foreground">
-                      <p>You'll be shown a QR code to scan after placing your order.</p>
-                      <p className="text-sm mt-2">Supported by all major Thai banks.</p>
-                    </div>
-                  </TabsContent>
-                </Tabs>
+                    <div className="font-medium">${(item.price * item.quantity).toFixed(2)}</div>
+                  </div>
+                ))}
+                <Separator />
+                <div className="flex justify-between">
+                  <span>Subtotal</span>
+                  <span>${subtotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Shipping</span>
+                  <span>{shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}</span>
+                </div>
+                <Separator />
+                <div className="flex justify-between font-bold">
+                  <span>Total</span>
+                  <span>${total.toFixed(2)}</span>
+                </div>
               </CardContent>
             </Card>
-
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Processing..." : `Complete Order • $${total.toFixed(2)}`}
-            </Button>
-          </form>
-        </div>
-
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Order Summary</CardTitle>
-              <CardDescription>
-                {items.length} {items.length === 1 ? "item" : "items"} in your cart
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {items.map((item) => (
-                <div key={item.variantId} className="flex justify-between py-2">
-                  <div>
-                    <div className="font-medium">{item.name}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {item.packageDescription} × {item.quantity}
-                    </div>
-                  </div>
-                  <div className="font-medium">${(item.price * item.quantity).toFixed(2)}</div>
-                </div>
-              ))}
-              <Separator />
-              <div className="flex justify-between">
-                <span>Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Shipping</span>
-                <span>{shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}</span>
-              </div>
-              <Separator />
-              <div className="flex justify-between font-bold">
-                <span>Total</span>
-                <span>${total.toFixed(2)}</span>
-              </div>
-            </CardContent>
-          </Card>
+          </div>
         </div>
       </div>
-    </div>
+    </Wrapper>
   )
 }
