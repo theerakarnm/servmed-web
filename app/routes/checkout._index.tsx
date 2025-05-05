@@ -212,19 +212,19 @@ export default function CheckoutPage() {
     )
   }
 
-  if (items.length === 0) {
-    return (
-      <Wrapper>
-        <div className="container max-w-md mx-auto px-4 py-16 text-center">
-          <h1 className="text-2xl font-bold mb-4">Your cart is empty</h1>
-          <p className="text-muted-foreground mb-8">You need to add items to your cart before checking out.</p>
-          <Button asChild>
-            <Link to="/products">Browse Products</Link>
-          </Button>
-        </div>
-      </Wrapper>
-    )
-  }
+  // if (items.length === 0) {
+  //   return (
+  //     <Wrapper>
+  //       <div className="container max-w-md mx-auto px-4 py-16 text-center">
+  //         <h1 className="text-2xl font-bold mb-4">Your cart is empty</h1>
+  //         <p className="text-muted-foreground mb-8">You need to add items to your cart before checking out.</p>
+  //         <Button asChild>
+  //           <Link to="/products">Browse Products</Link>
+  //         </Button>
+  //       </div>
+  //     </Wrapper>
+  //   )
+  // }
 
   return (
     <Wrapper>
