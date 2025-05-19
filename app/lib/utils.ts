@@ -16,7 +16,9 @@ export function jnavigate({
 }) {
   const url = new URL(window.location.href)
   const origin = url.origin
-  window.open(`${origin}${path}?${query ? query.toString() : ''}`, target)
+  const queryString = query?.toString() || ''
+  const fullPath = queryString ? `${path}?${queryString}` : path
+  window.open(`${origin}${fullPath}`, target)
 }
 
 export const ensure = {
