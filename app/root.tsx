@@ -10,6 +10,7 @@ import type { LinksFunction } from "@remix-run/node";
 
 import "./globals.css";
 import { CartProvider } from "./context/cart-context";
+import { AuthProvider } from "./context/auth-context";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -35,19 +36,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <CartProvider>
-          {children}
-          <ScrollRestoration />
-          <script
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
-            dangerouslySetInnerHTML={{
-              __html: `window.ENV = ${JSON.stringify({
-                env: data?.ENV,
-              })}`,
-            }}
-          />
-          <Scripts />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            {children}
+            <ScrollRestoration />
+            <script
+              // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+              dangerouslySetInnerHTML={{
+                __html: `window.ENV = ${JSON.stringify({
+                  env: data?.ENV,
+                })}`,
+              }}
+            />
+            <Scripts />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

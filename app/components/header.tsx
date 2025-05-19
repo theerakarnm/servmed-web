@@ -6,9 +6,11 @@ import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet"
 import { Badge } from "~/components/ui/badge"
 import { Link } from "@remix-run/react"
 import { useCart } from "~/context/cart-context"
+import { useAuth } from "~/context/auth-context"
 
 export default function Header() {
   const { itemCount } = useCart()
+  const { isLoggedIn } = useAuth()
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -76,9 +78,11 @@ export default function Header() {
             <span className="sr-only">Search</span>
           </Button>
 
-          <Button variant="ghost" size="icon">
-            <User className="h-5 w-5" />
-            <span className="sr-only">Account</span>
+          <Button variant="ghost" size="icon" asChild>
+            <Link to={isLoggedIn ? "/" : "/login"}>
+              <User className="h-5 w-5" />
+              <span className="sr-only">Account</span>
+            </Link>
           </Button>
 
           <Button variant="ghost" size="icon" className="relative" asChild>
