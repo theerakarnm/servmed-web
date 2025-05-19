@@ -1,3 +1,16 @@
+export type Product = {
+  productId: number
+  name: string
+  brandId: number
+  brandName: string
+  overallRating: number
+  totalReviews: number
+  price: number
+  currency: string
+  isuraVerified: boolean
+  imageUrl?: string
+}
+
 // Get top categories (most popular or featured)
 export async function getTopCategories() {
   try {
@@ -297,5 +310,25 @@ export async function getProductById(productId: number) {
   } catch (error) {
     console.error("Error fetching product:", error)
     return null
+  }
+}
+
+// Get all products - combines featured, top ranked, and new arrivals
+export async function getAllProducts(): Promise<Product[]> {
+  try {
+    const [featured, ranked, arrivals] = await Promise.all([
+      getFeaturedProducts(),
+      getTopRankedProducts(),
+      getNewArrivals(),
+    ])
+
+    const map = new Map<number, Product>()
+    for (const p of [...featured, ...ranked, ...arrivals]) {
+      map.set(p.productId, p)
+    }
+    return Array.from(map.values())
+  } catch (error) {
+    console.error('Error fetching all products:', error)
+    return []
   }
 }
