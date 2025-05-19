@@ -9,9 +9,11 @@ import { useCart } from "~/context/cart-context"
 import { ensure, jnavigate } from "~/lib/utils"
 import { Link } from "@remix-run/react"
 import Wrapper from "~/layouts/Wrapper"
+import { useAuth } from "~/context/auth-context"
 
 export default function CartPage() {
   const { items, itemCount, subtotal, updateQuantity, removeItem, clearCart } = useCart()
+  const { isLoggedIn } = useAuth()
   const [isProcessing, setIsProcessing] = useState(false)
 
   const shipping = subtotal >= 50 ? 0 : 5.99
@@ -22,8 +24,9 @@ export default function CartPage() {
     // Simulate checkout process
     setTimeout(() => {
       setIsProcessing(false)
+      const destination = isLoggedIn ? "/checkout" : "/login?redirect=/checkout"
       jnavigate({
-        path: "/checkout",
+        path: destination,
       })
     }, 1500)
   }

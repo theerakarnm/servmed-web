@@ -12,6 +12,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
 import AddressForm, { type Address } from "~/components/features/checkout/address-form"
 import ThaiQRPayment from "~/components/features/checkout/thai-qr-payment"
 import { useCart } from "~/context/cart-context"
+import { useAuth } from "~/context/auth-context"
+import { jnavigate } from "~/lib/utils"
 import { toast } from "sonner"
 import { Link } from "@remix-run/react"
 import Wrapper from "~/layouts/Wrapper"
@@ -32,12 +34,20 @@ type Order = {
 
 export default function CheckoutPage() {
   const { items, subtotal, clearCart } = useCart()
+  const { isLoggedIn } = useAuth()
 
   const [paymentMethod, setPaymentMethod] = useState<string>("card")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [orderComplete, setOrderComplete] = useState(false)
   const [pendingPayment, setPendingPayment] = useState(false)
   const [order, setOrder] = useState<Order | null>(null)
+
+  // Redirect to login if user is not authenticated
+  useEffect(() => {
+    if (typeof window !== "undefined" && !isLoggedIn) {
+      jnavigate({ path: "/login?redirect=/checkout" })
+    }
+  }, [isLoggedIn])
 
   // Address management
   const [addresses, setAddresses] = useState<Address[]>([])
