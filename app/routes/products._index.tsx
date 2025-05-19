@@ -10,8 +10,11 @@ import { getAllProducts, type Product } from "~/data/product";
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const q = url.searchParams.get("q")?.toLowerCase() || "";
-  const brand = url.searchParams.get("brand")?.toLowerCase() || "";
-  const sort = url.searchParams.get("sort") || "";
+  const brandValue = url.searchParams.get("brand")?.toLowerCase() ?? "all";
+  const sortValue = url.searchParams.get("sort") ?? "default";
+
+  const brand = brandValue === "all" ? "" : brandValue;
+  const sort = sortValue === "default" ? "" : sortValue;
 
   let products = await getAllProducts();
   const brands = Array.from(new Set(products.map(p => p.brandName).filter(Boolean))) as string[];
@@ -41,7 +44,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       break;
   }
 
-  return { products, brands, q, brand, sort };
+  return { products, brands, q, brandValue, sortValue };
 }
 
 export const meta: MetaFunction<typeof loader> = () => [{
@@ -52,7 +55,13 @@ export const meta: MetaFunction<typeof loader> = () => [{
 }];
 
 export default function ProductsPage() {
-  const { products, brands, q, brand, sort } = useLoaderData<typeof loader>();
+  const {
+    products,
+    brands,
+    q,
+    brandValue,
+    sortValue,
+  } = useLoaderData<typeof loader>();
 
   return (
     <Wrapper>
@@ -65,23 +74,23 @@ export default function ProductsPage() {
             defaultValue={q}
             className="md:col-span-2"
           />
-          <Select name="brand" defaultValue={brand}>
+          <Select name="brand" defaultValue={brandValue}>
             <SelectTrigger>
               <SelectValue placeholder="Filter by brand" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Brands</SelectItem>
+              <SelectItem value="all">All Brands</SelectItem>
               {brands.map(b => (
                 <SelectItem key={b} value={b.toLowerCase()}>{b}</SelectItem>
               ))}
             </SelectContent>
           </Select>
-          <Select name="sort" defaultValue={sort}>
+          <Select name="sort" defaultValue={sortValue}>
             <SelectTrigger>
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Default</SelectItem>
+              <SelectItem value="default">Default</SelectItem>
               <SelectItem value="price-asc">Price: Low to High</SelectItem>
               <SelectItem value="price-desc">Price: High to Low</SelectItem>
               <SelectItem value="rating-desc">Rating: High to Low</SelectItem>
