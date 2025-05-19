@@ -14,7 +14,9 @@ export function useProductImages(productImages: {
   useEffect(() => {
     async function fetchImages() {
       try {
-        const sortedImages = productImages.sort((a, b) => a.displayOrder - b.displayOrder)
+        const sortedImages = [...productImages].sort(
+          (a, b) => a.displayOrder - b.displayOrder,
+        )
         setImages(sortedImages)
       } catch (error) {
         console.error("Error fetching product images:", error)
