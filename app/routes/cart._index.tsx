@@ -24,7 +24,8 @@ export default function CartPage() {
     // Simulate checkout process
     setTimeout(() => {
       setIsProcessing(false)
-      const destination = isLoggedIn ? "/checkout" : "/login?redirect=/checkout"
+      // const destination = isLoggedIn ? "/checkout" : "/login?redirect=/checkout"
+      const destination = "/checkout"
       jnavigate({
         path: destination,
       })

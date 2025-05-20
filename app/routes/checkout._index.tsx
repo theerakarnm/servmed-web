@@ -34,7 +34,7 @@ type Order = {
 
 export default function CheckoutPage() {
   const { items, subtotal, clearCart } = useCart()
-  const { isLoggedIn } = useAuth()
+  // const { isLoggedIn } = useAuth()
 
   const [paymentMethod, setPaymentMethod] = useState<string>("card")
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -43,11 +43,11 @@ export default function CheckoutPage() {
   const [order, setOrder] = useState<Order | null>(null)
 
   // Redirect to login if user is not authenticated
-  useEffect(() => {
-    if (typeof window !== "undefined" && !isLoggedIn) {
-      jnavigate({ path: "/login?redirect=/checkout" })
-    }
-  }, [isLoggedIn])
+  // useEffect(() => {
+  //   if (typeof window !== "undefined" && !isLoggedIn) {
+  //     jnavigate({ path: "/login?redirect=/checkout" })
+  //   }
+  // }, [isLoggedIn])
 
   // Address management
   const [addresses, setAddresses] = useState<Address[]>([])
