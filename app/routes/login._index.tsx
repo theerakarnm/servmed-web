@@ -17,7 +17,7 @@ export default function LoginPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!isLoggedIn) {
-      login({ username });
+      login({ username, password });
     }
     jnavigate({ path: redirect });
   };
