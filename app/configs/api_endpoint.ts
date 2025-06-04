@@ -6,6 +6,9 @@ export const API_ENDPOINT = {
   COMPOSE_V1_HOME: '/api/v1/compose/home',
 
   // Config Endpoint
-  CONFIG_V1_GET: '/api/v1/configs/:configKey'
+  CONFIG_V1_GET: '/api/v1/configs/:configKey',
+
+  // Address Endpoint
+  ADDRESS_V1_CREATE: '/api/v1/addresses'
 
 } as const

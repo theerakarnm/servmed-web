@@ -10,6 +10,7 @@ import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group"
 import { Separator } from "~/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
 import AddressForm, { type Address } from "~/components/features/checkout/address-form"
+import { createAddress } from "~/services/addresses"
 import ThaiQRPayment from "~/components/features/checkout/thai-qr-payment"
 import { useCart } from "~/context/cart-context"
 import { useAuth } from "~/context/auth-context"
@@ -34,7 +35,7 @@ type Order = {
 
 export default function CheckoutPage() {
   const { items, subtotal, clearCart } = useCart()
-  // const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useAuth()
 
   const [paymentMethod, setPaymentMethod] = useState<string>("thai_qr")
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -85,7 +86,7 @@ export default function CheckoutPage() {
     }
   }, [])
 
-  const saveAddress = (address: Address) => {
+  const saveAddress = async (address: Address) => {
     // If this is set as default, unset any other default
     let updatedAddresses = [...addresses]
 
@@ -108,8 +109,15 @@ export default function CheckoutPage() {
     setSelectedAddressId(address.id)
     setShowAddressForm(false)
 
-    // Save to localStorage
-    if (typeof window !== "undefined") {
+    if (isLoggedIn) {
+      try {
+        await createAddress(address)
+      } catch (error) {
+        console.error("Failed to save address via API:", error)
+        toast("Failed to save address. Please try again.")
+        return
+      }
+    } else if (typeof window !== "undefined") {
       localStorage.setItem("addresses", JSON.stringify(updatedAddresses))
     }
 
