@@ -3,6 +3,9 @@ export const API_ENDPOINT = {
   PRODUCT_V1_DETAIL: '/api/v1/products/details/:id',
 
   // Compose Endpoint
-  COMPOSE_V1_HOME: '/api/v1/compose/home'
+  COMPOSE_V1_HOME: '/api/v1/compose/home',
+
+  // Config Endpoint
+  CONFIG_V1_GET: '/api/v1/configs/:configKey'
 
 } as const

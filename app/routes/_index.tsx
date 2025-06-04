@@ -10,6 +10,7 @@ import {
   getNewArrivals,
 } from "~/data/product"
 import HeroSection from "~/components/hero-section"
+import { getConfigByKey } from "~/services/configs"
 import ProductCard from "~/components/product-card"
 import CategoryCard from "~/components/category-card"
 import BrandCard from "~/components/brand-card"
@@ -25,7 +26,7 @@ export default function HomePage() {
     <Wrapper>
       <div className="flex flex-col min-h-screen">
         <main className="flex-1">
-          <HeroSection />
+          <HeroSection imageUrl={data.banner?.value.image} />
 
           {/* Categories Section */}
           <section className="py-12 px-4 md:px-6 lg:px-8 bg-gray-50">
@@ -201,9 +202,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
     }
   }>('')
 
+  const banner = await getConfigByKey('banner')
+
   console.log(httpClient);
 
-  return httpClient.data;
+  return { ...httpClient.data, banner };
 }
 
 function TopCategories({ categories }: { categories: Awaited<ReturnType<typeof getTopCategories>> }) {
