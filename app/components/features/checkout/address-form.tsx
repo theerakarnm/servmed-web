@@ -43,9 +43,11 @@ export default function AddressForm({ existingAddress, onSave, onCancel }: Addre
     setAddress((prev) => ({ ...prev, isDefault: checked }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
+  const handleSubmit = (
+    e?: React.FormEvent | React.MouseEvent,
+  ) => {
+    e?.preventDefault()
+    e?.stopPropagation()
 
     // Validate required fields
     const requiredFields = ["firstName", "lastName", "address", "city", "state", "postalCode", "country", "phone"]
@@ -71,7 +73,7 @@ export default function AddressForm({ existingAddress, onSave, onCancel }: Addre
         <CardTitle>{existingAddress ? "Edit Address" : "Add New Address"}</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="firstName">First Name*</Label>
@@ -131,9 +133,9 @@ export default function AddressForm({ existingAddress, onSave, onCancel }: Addre
                 Cancel
               </Button>
             )}
-            <Button type="submit">Save Address</Button>
+            <Button type="button" onClick={handleSubmit}>Save Address</Button>
           </div>
-        </form>
+        </div>
       </CardContent>
     </Card>
   )
