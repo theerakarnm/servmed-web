@@ -6,12 +6,14 @@ import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { toast } from "sonner";
 import { jnavigate } from "~/lib/utils";
+import { useCart } from "~/context/cart-context";
 
 export default function UploadSlipPage() {
   const [slip, setSlip] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [searchParams] = useSearchParams();
   const orderId = searchParams.get("orderId") || "";
+  const { clearCart } = useCart();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,6 +25,7 @@ export default function UploadSlipPage() {
     setTimeout(() => {
       setIsSubmitting(false);
       toast("Payment slip uploaded. We'll verify your transfer shortly.");
+      clearCart();
       jnavigate({ path: "/" });
     }, 1500);
   };
