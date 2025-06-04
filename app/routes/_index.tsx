@@ -158,20 +158,6 @@ export default function HomePage() {
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const [
-    featuredProducts,
-    topCategories,
-    featuredBrands,
-    topRankedProducts,
-    newArrivals,
-  ] = await Promise.all([
-    getFeaturedProducts(),
-    getTopCategories(),
-    getFeaturedBrands(),
-    getTopRankedProducts(),
-    getNewArrivals(),
-  ])
-
   type Product = {
     productId: number;
     name: string;
@@ -204,7 +190,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const banner = await getConfigByKey('banner')
 
-  console.log(httpClient);
+  console.log(banner);
 
   return { ...httpClient.data, banner };
 }
