@@ -168,7 +168,7 @@ export default function CheckoutPage() {
       setTimeout(() => {
         setIsSubmitting(false)
         setOrderComplete(true)
-        // clearCart()
+        clearCart()
       }, 2000)
     }
   }
@@ -211,7 +211,7 @@ export default function CheckoutPage() {
         path: "/upload-slip",
         query: new URLSearchParams({ orderId: updatedOrder.id }),
       })
-      // clearCart()
+      clearCart()
     }
   }
 

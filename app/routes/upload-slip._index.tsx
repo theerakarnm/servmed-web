@@ -6,6 +6,7 @@ import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { toast } from "sonner";
 import { jnavigate } from "~/lib/utils";
+import { useCart } from "~/context/cart-context";
 import { fileUpload } from "~/lib/upload-file";
 import { ActionFunctionArgs } from "@remix-run/node";
 import { checkoutOrder } from "~/services/checkout";
@@ -33,6 +34,7 @@ export default function UploadSlipPage() {
   const isSubmitting = navigation.state === "submitting";
   const [searchParams] = useSearchParams();
   const orderId = searchParams.get("orderId") || "";
+  const { clearCart } = useCart();
   const submit = useSubmit()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -66,6 +68,9 @@ export default function UploadSlipPage() {
         method: 'post',
         navigate: false,
       })
+        
+      clearCart();
+   
     } catch (error) {
       console.error("Upload failed:", error);
       toast("Failed to upload payment slip. Please try again.");
