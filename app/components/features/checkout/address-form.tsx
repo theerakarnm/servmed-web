@@ -23,7 +23,7 @@ export type Address = {
 
 interface AddressFormProps {
   existingAddress?: Address
-  onSave: (address: Address) => void
+  onSave: (address: Address) => void | Promise<void>
   onCancel?: () => void
 }
 
@@ -45,6 +45,7 @@ export default function AddressForm({ existingAddress, onSave, onCancel }: Addre
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    e.stopPropagation()
 
     // Validate required fields
     const requiredFields = ["firstName", "lastName", "address", "city", "state", "postalCode", "country", "phone"]
@@ -61,7 +62,7 @@ export default function AddressForm({ existingAddress, onSave, onCancel }: Addre
       id: existingAddress?.id || `address_${Date.now()}`,
     } as Address
 
-    onSave(completeAddress)
+    void onSave(completeAddress)
   }
 
   return (
