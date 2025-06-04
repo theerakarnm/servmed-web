@@ -1,6 +1,6 @@
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "~/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card"
 import { Input } from "~/components/ui/input"
@@ -33,6 +33,12 @@ export default function AddressForm({ existingAddress, onSave, onCancel }: Addre
       isDefault: true,
     },
   )
+
+  useEffect(() => {
+    if (existingAddress) {
+      setAddress(existingAddress)
+    }
+  }, [existingAddress])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
