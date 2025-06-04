@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSearchParams } from "@remix-run/react";
+import { redirect, useNavigation, useSearchParams, useSubmit } from "@remix-run/react";
 import Wrapper from "~/layouts/Wrapper";
 import FileUpload from "~/components/file-upload";
 import { Button } from "~/components/ui/button";
@@ -7,12 +7,33 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { toast } from "sonner";
 import { jnavigate } from "~/lib/utils";
 import { fileUpload } from "~/lib/upload-file";
+import { ActionFunctionArgs } from "@remix-run/node";
+import { checkoutOrder } from "~/services/checkout";
+
+export async function action({ request }: ActionFunctionArgs) {
+  const formData = await request.formData();
+  const rawData = formData.get("orderData");
+  if (!rawData || typeof rawData !== "string") {
+    return Response.json({ ok: false, message: "Missing order data" }, { status: 400 });
+  }
+
+  try {
+    const order = JSON.parse(rawData);
+    await checkoutOrder(order);
+    return redirect("/");
+  } catch (error) {
+    console.error("Checkout failed:", error);
+    return Response.json({ ok: false, message: "Checkout failed" }, { status: 500 });
+  }
+}
 
 export default function UploadSlipPage() {
   const [slip, setSlip] = useState<File | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
   const [searchParams] = useSearchParams();
   const orderId = searchParams.get("orderId") || "";
+  const submit = useSubmit()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +41,6 @@ export default function UploadSlipPage() {
       toast("Please upload your payment slip.");
       return;
     }
-    setIsSubmitting(true);
 
     try {
       const imageObject = await fileUpload(slip)
@@ -38,11 +58,15 @@ export default function UploadSlipPage() {
       }
       orders[orderIndex].paymentSlip = imageObject.file.url;
 
-      setIsSubmitting(false);
-      toast("Payment slip uploaded. We'll verify your transfer shortly.");
-      jnavigate({ path: "/" });
+      const formData = new FormData();
+      formData.append("orderData", JSON.stringify(orders[orderIndex]));
+
+      submit(formData, {
+        action: '/upload-slip',
+        method: 'post',
+        navigate: false,
+      })
     } catch (error) {
-      setIsSubmitting(false);
       console.error("Upload failed:", error);
       toast("Failed to upload payment slip. Please try again.");
     }

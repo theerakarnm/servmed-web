@@ -187,7 +187,18 @@ export default function CheckoutPage() {
         const savedOrders = localStorage.getItem("orders") || "[]"
         try {
           const orders = JSON.parse(savedOrders)
-          orders.push(updatedOrder)
+          orders.push({
+            ...updatedOrder,
+            shipping: undefined,
+            subtotal: undefined,
+            total: undefined,
+            amountObject: {
+              shipping: updatedOrder.shipping,
+              subtotal: updatedOrder.subtotal,
+              tax: 0,
+              total: updatedOrder.total,
+            },
+          })
           localStorage.setItem("orders", JSON.stringify(orders))
         } catch (error) {
           console.error("Failed to save order to localStorage:", error)
