@@ -54,6 +54,7 @@ export default function CheckoutPage() {
   const [addresses, setAddresses] = useState<Address[]>([])
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null)
   const [showAddressForm, setShowAddressForm] = useState(false)
+  const [editingAddress, setEditingAddress] = useState<Address | null>(null)
 
   const shipping = subtotal >= 50 ? 0 : 5.99
   const total = subtotal + shipping
@@ -108,6 +109,7 @@ export default function CheckoutPage() {
     setAddresses(updatedAddresses)
     setSelectedAddressId(address.id)
     setShowAddressForm(false)
+    setEditingAddress(null)
 
     if (isLoggedIn) {
       try {
@@ -185,7 +187,18 @@ export default function CheckoutPage() {
         const savedOrders = localStorage.getItem("orders") || "[]"
         try {
           const orders = JSON.parse(savedOrders)
-          orders.push(updatedOrder)
+          orders.push({
+            ...updatedOrder,
+            shipping: undefined,
+            subtotal: undefined,
+            total: undefined,
+            amountObject: {
+              shipping: updatedOrder.shipping,
+              subtotal: updatedOrder.subtotal,
+              tax: 0,
+              total: updatedOrder.total,
+            },
+          })
           localStorage.setItem("orders", JSON.stringify(orders))
         } catch (error) {
           console.error("Failed to save order to localStorage:", error)
@@ -284,7 +297,14 @@ export default function CheckoutPage() {
                   <CardTitle>Shipping Address</CardTitle>
                   <CardDescription>
                     {addresses.length > 0 && !showAddressForm ? (
-                      <Button variant="link" className="p-0 h-auto" onClick={() => setShowAddressForm(true)}>
+                      <Button
+                        variant="link"
+                        className="p-0 h-auto"
+                        onClick={() => {
+                          setEditingAddress(null)
+                          setShowAddressForm(true)
+                        }}
+                      >
                         + Add new address
                       </Button>
                     ) : null}
@@ -293,8 +313,12 @@ export default function CheckoutPage() {
                 <CardContent>
                   {showAddressForm ? (
                     <AddressForm
+                      existingAddress={editingAddress ?? undefined}
                       onSave={saveAddress}
-                      onCancel={addresses.length > 0 ? () => setShowAddressForm(false) : undefined}
+                      onCancel={addresses.length > 0 ? () => {
+                        setShowAddressForm(false)
+                        setEditingAddress(null)
+                      } : undefined}
                     />
                   ) : addresses.length > 0 ? (
                     <RadioGroup
@@ -324,11 +348,10 @@ export default function CheckoutPage() {
                                 className="h-auto py-0 px-2"
                                 onClick={(e) => {
                                   e.preventDefault()
-                                  setShowAddressForm(true)
-                                  // Find the address and set it for editing
                                   const addrToEdit = addresses.find((a) => a.id === address.id)
                                   if (addrToEdit) {
-                                    // This would set the address for editing
+                                    setEditingAddress(addrToEdit)
+                                    setShowAddressForm(true)
                                   }
                                 }}
                               >

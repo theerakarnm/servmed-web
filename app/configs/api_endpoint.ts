@@ -9,6 +9,10 @@ export const API_ENDPOINT = {
   CONFIG_V1_GET: '/api/v1/configs/:configKey',
 
   // Address Endpoint
-  ADDRESS_V1_CREATE: '/api/v1/addresses'
+  ADDRESS_V1_CREATE: '/api/v1/addresses',
+
+  // Checkout Endpoint
+  CHECKOUT_V1_POST: '/api/v1/checkout',
+
 
 } as const
