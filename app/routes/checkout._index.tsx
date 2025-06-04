@@ -1,7 +1,7 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import { ArrowLeft, CheckCircle2, CreditCard, QrCode } from "lucide-react"
+import { ArrowLeft, CheckCircle2, QrCode } from "lucide-react"
 import { Button } from "~/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card"
 import { Input } from "~/components/ui/input"
@@ -36,7 +36,7 @@ export default function CheckoutPage() {
   const { items, subtotal, clearCart } = useCart()
   // const { isLoggedIn } = useAuth()
 
-  const [paymentMethod, setPaymentMethod] = useState<string>("card")
+  const [paymentMethod, setPaymentMethod] = useState<string>("thai_qr")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [orderComplete, setOrderComplete] = useState(false)
   const [pendingPayment, setPendingPayment] = useState(false)
@@ -185,7 +185,11 @@ export default function CheckoutPage() {
       }
 
       setPendingPayment(false)
-      setOrderComplete(true)
+      // Navigate to slip upload page
+      jnavigate({
+        path: "/upload-slip",
+        query: new URLSearchParams({ orderId: updatedOrder.id }),
+      })
       // clearCart()
     }
   }
@@ -345,33 +349,12 @@ export default function CheckoutPage() {
                 </CardHeader>
                 <CardContent>
                   <Tabs defaultValue={paymentMethod} onValueChange={setPaymentMethod}>
-                    <TabsList className="grid w-full grid-cols-2">
-                      <TabsTrigger value="card">
-                        <CreditCard className="h-4 w-4 mr-2" />
-                        Credit Card
-                      </TabsTrigger>
+                    <TabsList className="grid w-full grid-cols-1">
                       <TabsTrigger value="thai_qr">
                         <QrCode className="h-4 w-4 mr-2" />
                         Thai QR
                       </TabsTrigger>
                     </TabsList>
-
-                    <TabsContent value="card" className="space-y-4 pt-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="cardNumber">Card Number</Label>
-                        <Input id="cardNumber" placeholder="1234 5678 9012 3456" />
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="expiry">Expiry Date</Label>
-                          <Input id="expiry" placeholder="MM/YY" />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="cvc">CVC</Label>
-                          <Input id="cvc" placeholder="123" />
-                        </div>
-                      </div>
-                    </TabsContent>
 
                     <TabsContent value="thai_qr" className="pt-4">
                       <div className="text-center p-4 text-muted-foreground">
