@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react"
 import { Button } from "~/components/ui/button"
 import { Link } from "@remix-run/react"
 
-export default function HeroSection() {
+export default function HeroSection({ imageUrl }: { imageUrl?: string }) {
   return (
     <section className="relative">
       {/* Hero Background */}
@@ -73,10 +73,10 @@ export default function HeroSection() {
           <div className="relative">
             <div className="relative h-[400px] w-full rounded-lg overflow-hidden shadow-xl">
               <img
-                src="/placeholder.svg?height=800&width=600"
+                src={imageUrl || "/placeholder.svg?height=800&width=600"}
                 alt="Featured supplements"
                 className="object-cover"
-              // priority
+                // priority
               />
             </div>
 
